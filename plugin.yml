@@ -1,0 +1,11 @@
+name: TipsPlugin
+main: no.atc.floyd.bukkit.tips.TipsPlugin
+version: 1.1
+website: http://minecraft.atc.no/plugins
+author: FloydATC
+description: >
+        Show a random tip every 5 minutes
+commands:
+  tip:
+    description: Show a random tip or add a new one
+    usage: /<command> [<text>]
