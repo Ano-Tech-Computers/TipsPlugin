@@ -1,2 +1,2 @@
 # TipsPlugin
-Show a random tip every 5 minutes
+Give players helpful tips
