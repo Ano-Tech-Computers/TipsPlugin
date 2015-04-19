@@ -72,7 +72,8 @@ public class TipsPlugin extends JavaPlugin {
 	this.loadTips();
 	
 	// schedule broadcasts
-	this.task = this.new Broadcaster().runTaskTimer(this, 0L, interval);
+	if (interval > 0)
+	    this.task = this.new Broadcaster().runTaskTimer(this, 0L, interval);
 	
 	// log legal notices
 	String fullName = this.getDescription().getFullName();
