@@ -1,2 +1,2 @@
-prefix: "[Tips] §b"
-interval: 6000
+prefix: "[Tips] Â§b" # put before every message
+interval: 6000 # ticks per tip
