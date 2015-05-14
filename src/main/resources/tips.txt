@@ -1,0 +1,2 @@
+Use /tip <tip> to add more tips.
+Use /tip to see another tip.

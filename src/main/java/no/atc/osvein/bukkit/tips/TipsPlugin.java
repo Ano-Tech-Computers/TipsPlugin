@@ -4,12 +4,11 @@
 package no.atc.osvein.bukkit.tips;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -65,6 +64,7 @@ public class TipsPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
 	this.saveDefaultConfig();
+	this.saveResource(FNAME_TIPS, false);
 	
 	// read configuration
 	this.prefix = this.getConfig().getString("prefix");
@@ -150,7 +150,7 @@ public class TipsPlugin extends JavaPlugin {
      */
     public String getTip() {
 	if (tips.isEmpty())
-	    return "Use " + ChatColor.ITALIC + "/tip <tip>" + ChatColor.ITALIC + " to add tips.";
+	    return "";
 	
 	return this.tips.get(rand.nextInt(tips.size()));
     }
@@ -169,17 +169,14 @@ public class TipsPlugin extends JavaPlugin {
      * @return true if the tip buffer was loaded from file
      */
     public synchronized boolean loadTips() {
-	File file = new File(this.getDataFolder(), FNAME_TIPS);
+	Path file = this.getDataFolder().toPath().resolve(FNAME_TIPS);
 	this.getLogger().info("Loading tips from " + file);
 	
 	// buffer entire file for efficiency - writing the tip buffer once for
 	// each line is inefficient
 	Collection<String> buffer = new ArrayList<String>();
 	
-	BufferedReader reader = null;
-	try {
-	    reader = new BufferedReader(new FileReader(file));
-	    
+	try (BufferedReader reader = Files.newBufferedReader(file, Charset.defaultCharset())){
 	    // read line by line into the file buffer
 	    String line;
 	    while ((line = reader.readLine()) != null) {
@@ -203,15 +200,6 @@ public class TipsPlugin extends JavaPlugin {
 	    return false;
 	}
 	finally {
-	    if (reader != null) {
-		try {
-		    reader.close();
-		}
-		catch (IOException e) {
-		    e.printStackTrace();
-		}
-	    }
-	    
 	    // copy the file buffer into the tip buffer
 	    this.tips = new CopyOnWriteArrayList<String>(buffer);
 	}
@@ -224,40 +212,16 @@ public class TipsPlugin extends JavaPlugin {
      * @return true if the tip buffer was saved to file
      */
     public synchronized boolean saveTips() {
-	File file = new File(this.getDataFolder(), FNAME_TIPS);
+	Path file = this.getDataFolder().toPath().resolve(FNAME_TIPS);
 	this.getLogger().info("Saving tips to " + file);
 	
-	// create all parent directories
-	File dir = file.getParentFile();
-	if (!dir.isDirectory() && !dir.mkdirs()) {
-	    this.getLogger().warning("Failed to create directory " + dir);
-	    return false;
-	}
-	
-	BufferedWriter writer = null;
 	try {
-	    writer = new BufferedWriter(new FileWriter(file));
-	    
-	    // write line by line
-	    for (String line : this.tips) {
-		writer.write(line);
-		writer.newLine();
-	    }
+	    Files.write(file, this.tips, Charset.defaultCharset());
 	}
 	catch (IOException e) {
 	    e.printStackTrace();
 	    this.getLogger().warning("Failed to save tips to " + file);
 	    return false;
-	}
-	finally {
-	    if (writer != null) {
-		try {
-		    writer.close();
-		}
-		catch (IOException e) {
-		    e.printStackTrace();
-		}
-	    }
 	}
 	
 	return true;

@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>no.atc.osvein.bukkit.tips</groupId>
 	<artifactId>tipsplugin</artifactId>
-	<version>2.0</version>
+	<version>2.2</version>
 
 	<parent>
 		<groupId>no.atc</groupId>
@@ -13,7 +13,7 @@
 
 	<name>TipsPlugin</name>
 	<url>https://github.com/Ano-Tech-Computers/TipsPlugin</url>
-	<inceptionYear></inceptionYear>
+	<inceptionYear>2015</inceptionYear>
 	<description>Give players helpful tips</description>
 
 	<licenses>
