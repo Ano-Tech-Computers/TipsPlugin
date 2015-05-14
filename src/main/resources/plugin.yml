@@ -1,0 +1,26 @@
+name: "${project.name}"
+main: no.atc.osvein.bukkit.tips.TipsPlugin
+version: "${project.version}"
+website: "${project.url}"
+author: "${project.organization.name}"
+description: "${project.description}"
+
+commands:
+  tip:
+    description: Show a random tip or add a new one
+    usage: |
+      /<command> - receive a random tip
+      /<command> <text> - add a new tip
+
+permissions:
+  tipsplugin.*:
+    description: Grants all TipsPlugin permissions
+    children:
+      tipsplugin.get: true
+      tipsplugin.add: true
+  tipsplugin.get:
+    description: Allows receiving tips
+    default: true
+  tipsplugin.add:
+    description: Allows adding tips
+    default: op
